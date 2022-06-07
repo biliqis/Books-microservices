@@ -1,0 +1,29 @@
+ import "dotenv/config";
+import express from "express";
+//import indexRouter from "./routes";
+import morgan from "morgan";
+import connectDB from "./db"
+const path = require("path");
+
+const app = express();
+
+app.use(express.json());
+
+app.use(morgan("dev"));
+
+const port: number | string = process.env.PORT || 4040;
+
+//app.use("/api/v1", indexRouter);
+
+async function bootstrap(): Promise<void> {
+  try {
+    connectDB();
+    app.listen(port, () => {
+      console.log(`listening on port ${port}`);
+    });
+  } catch (e) {
+    process.exit(1);
+  }
+}
+
+bootstrap();
